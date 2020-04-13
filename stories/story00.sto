@@ -1,0 +1,3 @@
+@role "BB" "你好"
+
+@import "story01.sto"

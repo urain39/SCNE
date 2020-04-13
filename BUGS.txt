@@ -1,0 +1,26 @@
+字符串不能使用反斜杠转义换行
+=========================
+
+```sto
+
+@role "AA" "\
+早上好，urain39!
+"
+```
+
+引号里当遇到反斜杠+<NEWLINE>组合时会触发TokenizerError。
+
+```log
+Traceback (most recent call last):
+  File "test.py", line 4, in <module>
+    Executor().execute()
+  File "/home/urain39/scne-public/scne/executor.py", line 69, in execute
+    tokens: List[Token] = self.preprocess(filename)
+  File "/home/urain39/scne-public/scne/executor.py", line 43, in preprocess
+    token = token_generator.send(None)
+  File "/home/urain39/scne-public/scne/tokenizer.py", line 59, in tokenize
+    unexpected((filename, i, i + 1), TokenizerError, source)
+  File "/home/urain39/scne-public/scne/exception.py", line 47, in unexpected
+    raise exception_type(
+scne.exception.TokenizerError: main.sto:6:12: Unexpected '"'
+```
