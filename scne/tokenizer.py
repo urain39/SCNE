@@ -22,9 +22,9 @@ class Tokenizer():
 			('WHITESPACE', re.compile(r'([\t ]+)'), None),
 			('NEWLINE', re.compile(r'(\n)'), None),
 			('OPERATOR', re.compile(r'(->|\\)'), None),
-			('STRING', re.compile(r'("(?:[^"\\]|\\.)*")'),
+			('STRING', re.compile(r'"((?:[^"\\]|\\(?:\n|.))*)"'),
 				# XXX: Quick way to unescape a string.
-				lambda matched: cast(str, eval(matched.replace('\n', '\\n')))),
+				lambda string: cast(str, eval('"""' + string + '"""'))),
 			('COMMAND', re.compile(r'@([A-Za-z_]+[0-9A-Za-z_]*)'), None),
 			('LABEL', re.compile(r'\*([^\t\n "]+)'), None),
 			('WORD', re.compile(r'([^\t\n "]+)'), None)
