@@ -49,11 +49,11 @@ class Executor():
 
 							if token2[0] == 'WHITESPACE':
 								continue
-							elif token2[0] == 'NEWLINE':
-								unexpected(token2[2],
-									ExecutorError, source)
 							elif token2[0] == 'STRING':
 								break
+							else:
+								unexpected(token2[2],
+									ExecutorError, source)
 
 						tokens.extend(self.preprocess(
 							_normalizepath(filename, token2[1])))
