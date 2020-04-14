@@ -17,8 +17,8 @@ from .typing import Token, TokenGenerator
 _tokenize = Tokenizer().tokenize
 _normalizepath: Callable[[str, str], str] = \
 	lambda path1, path2: (
-		path2 if path2[0] == '/' else
-			path.join(path.dirname(path1), path2))
+		path1 if path.isabs(path1) else
+			path.join(path.dirname(path2), path1))
 
 
 class Executor():
@@ -26,17 +26,8 @@ class Executor():
 		pass
 
 	def preprocess(self, filename: str) -> List[Token]:
-		source: str = ''
 		tokens: List[Token] = []
-		token_generator: TokenGenerator
-
-		try:
-			with open(filename, 'r') as f:
-				source = f.read()
-		except FileNotFoundError as e:
-			raise ExecutorError('Cannot open file \'%s\'' % filename)
-
-		token_generator = _tokenize(source, filename)
+		token_generator: TokenGenerator = _tokenize(filename)
 
 		while True:
 			try:
@@ -45,21 +36,23 @@ class Executor():
 				if token[0] == 'COMMAND':
 					if token[1] == 'import':
 						while True:
-							token2 = token_generator.send(None)
+							token = token_generator.send(None)
 
-							if token2[0] == 'WHITESPACE':
+							if token[0] == 'WHITESPACE':
 								continue
-							elif token2[0] == 'STRING':
+							elif token[0] == 'STRING':
 								break
 							else:
-								unexpected(token2[2],
-									ExecutorError, source)
+								unexpected(token[2], ExecutorError)
 
 						tokens.extend(self.preprocess(
-							_normalizepath(filename, token2[1])))
+							_normalizepath(token[1], filename)))
 						continue  # Skip append `@import "xxx"`
-
-				tokens.append(token)
+					else:
+						# XXX:
+                                                pass
+				else:
+					tokens.append(token)
 			except StopIteration:
 				break
 
@@ -70,4 +63,5 @@ class Executor():
 
 		for token in tokens:
 			print(token)
+
 		# TODO: 从这里开始正式译码执行。

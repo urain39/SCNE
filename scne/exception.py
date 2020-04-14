@@ -36,7 +36,7 @@ def unexpected(position: Position,
 
 		if not source:
 			with open(filename) as f:
-				source = f.read()
+				source = f.read(j)
 
 		# Count <newline> for token info
 		lineno = source.count('\n', 0, i) + 1

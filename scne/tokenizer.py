@@ -34,12 +34,22 @@ class Tokenizer():
 		self.rules.append(rule)
 		return self
 
-	def tokenize(self, source: str, filename: str = '') -> TokenGenerator:
+	def tokenize(self, filename: str = '') -> TokenGenerator:
 		i: int = 0  # Main index
-		j: int = i  # Main index's backup
-		l: int = len(source)
+		j: int = i  # Main index backup
 
-		while i < l:
+		slen: int  # Source length
+		source: str
+
+		try:
+			with open(filename, 'r') as f:
+				source = f.read()
+		except FileNotFoundError as e:
+			raise TokenizerError('Cannot open file \'%s\'' % filename)
+
+		slen = len(source)
+
+		while i < slen:
 			for type_, pattern, preprocess in self.rules:
 				matched = pattern.match(source, i)
 
