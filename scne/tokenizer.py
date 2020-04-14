@@ -21,7 +21,7 @@ class Tokenizer():
 			('COMMENT', re.compile(r'[#;]([^\n]+)'), None),
 			('WHITESPACE', re.compile(r'([\t ]+)'), None),
 			('NEWLINE', re.compile(r'(\n)'), None),
-			('OPERATOR', re.compile(r'(->|\\)'), None),
+			('OPERATOR', re.compile(r'(->)'), None),
 			('STRING', re.compile(r'"((?:[^"\\]|\\(?:\n|.))*)"'),
 				# XXX: Quick way to unescape a string.
 				lambda string: cast(str, eval('"""' + string + '"""'))),

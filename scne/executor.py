@@ -33,7 +33,9 @@ class Executor():
 			try:
 				token = token_generator.send(None)
 
-				if token[0] == 'COMMAND':
+				if token[0] == 'COMMENT':
+					continue  # Skip comment
+				elif token[0] == 'COMMAND':
 					if token[1] == 'import':
 						while True:
 							token = token_generator.send(None)
@@ -50,9 +52,9 @@ class Executor():
 						continue  # Skip append `@import "xxx"`
 					else:
 						# XXX:
-                                                pass
-				else:
-					tokens.append(token)
+						pass
+
+				tokens.append(token)
 			except StopIteration:
 				break
 
