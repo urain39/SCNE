@@ -1,4 +1,5 @@
-from scne.executor import Executor
+from scne.compiler import Compiler
 
 
-Executor().execute()
+Compiler().compile("main.sto")
+Compiler().compile("main-error.sto")

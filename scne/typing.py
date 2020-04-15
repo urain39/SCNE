@@ -6,9 +6,11 @@
 # Update: 2020-04-10
 ############################################################
 
-from typing import Callable, Generator, Pattern, Tuple, Union
+from typing import (
+	Any, Callable, Generator, Pattern, Tuple, Optional
+)
 
 Position = Tuple[str, int, int]
-Rule = Tuple[str, Pattern[str], Union[Callable[[str], str], None]]
-Token = Tuple[str, str, Position]
+Rule = Tuple[str, Pattern[str], Optional[Callable[[str], str]]]
+Token = Tuple[str, Any, Position]
 TokenGenerator = Generator[Token, None, None]

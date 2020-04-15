@@ -18,7 +18,11 @@ class ExecutorError(BaseError):
 	pass
 
 
-class TokenizerError(ExecutorError):
+class CompilerError(ExecutorError):
+	pass
+
+
+class TokenizerError(CompilerError):
 	pass
 
 
